@@ -13,6 +13,7 @@
     }
     else{
         move_uploaded_file($tmpFile,$img.$fileName);
+        echo "success!!!";
 
     }                                                                                                              
     // var_dump($file);
@@ -33,12 +34,22 @@
         <input type="file" name="myFile" id="">
         <input type="submit" name="btnSubmit" value="Upload">
     </form>
-    <?php
-        if(isset($_POST['btnSubmit'])){
-            echo "<img src='$img/$fileName' width= '300px'; alt=''>";
-        }
-    
-    ?>
+
    
 </body>
 </html>
+<?php
+
+$imgLocation = "image/";
+$images = glob($imgLocation. "*{jpg,jpeg,png,gif}", GLOB_BRACE);
+if(count($images)>0){
+    foreach($images as $image){
+        echo '<img src="'.$image. '"  alt="Uploaded Image">';
+    }  
+}
+else{
+    echo "No image uploaded yet";
+}
+
+
+?>
