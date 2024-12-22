@@ -14,6 +14,10 @@ if (isset($_POST['addProduct'])) {
 
     $conn->query("call manufact('$pname', '$manuf','$price')");
 }
+if (isset($_POST['delete'])) {
+    $del = $_POST['d'];
+    $conn->query("DELETE FROM brand WHERE id = '$del'");
+}
 
 ?>
 
@@ -47,9 +51,9 @@ if (isset($_POST['addProduct'])) {
 
     </div> <br><br>
 
-<!-- Product  table -->
+    <!-- Product  table -->
     <div class="login-container">
-    <h2>Product from</h2>
+        <h2>Product from</h2>
         <form action="" method="post">
             <div class="form-group">
                 <label for="username">Product Name:</label>
@@ -97,10 +101,10 @@ if (isset($_POST['addProduct'])) {
                 if (!$conn) {
                     die('Connection failed:' . mysqli_connect_error());
                 } else {
-                    $user = $conn->query("SELECT * FROM product_view");
+                    $user = $conn->query("SELECT * FROM price_view");
                     $counter = 1;
                     while (list($brand, $contact, $product_name, $price) = $user->fetch_row()) {
-                        $sl=$counter++;
+                        $sl = $counter++;
                         echo "<tr>
                     <td>$sl</td>
                     <td>$brand</td>
@@ -115,6 +119,19 @@ if (isset($_POST['addProduct'])) {
             </tbody>
         </table>
     </div>
+
+
+    <form action="" method="post">
+        <select name="d" id="" class="options">
+            <?php
+            $manufactList = $conn->query('select * from brand');
+            while (list($_mid, $_mname) = $manufactList->fetch_row()) {
+                echo "<option value ='$_mid'>$_mname</option> ";
+            }
+            ?>
+        </select>
+<button name="delete" type="submit">Delete</button>
+    </form>
 </body>
 
 </html>
